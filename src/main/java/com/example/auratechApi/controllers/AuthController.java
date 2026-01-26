@@ -6,7 +6,6 @@ import com.example.auratechApi.dtos.RegisterRequestDTO;
 import com.example.auratechApi.services.LoginService;
 import com.example.auratechApi.services.RegisterService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +36,12 @@ public class AuthController {
 
         AuthResponseDTO loginResponse = this.loginService.login(new LoginRequestDTO(register.email(), register.password()));
 
-        return ResponseEntity.ok(loginResponse);
+        if(loginResponse != null) {
+            return ResponseEntity.ok(loginResponse);
+        }
+
+        return ResponseEntity.badRequest().build();
+
     }
 
 }

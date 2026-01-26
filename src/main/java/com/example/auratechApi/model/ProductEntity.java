@@ -9,16 +9,17 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "products")
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class UserEntity {
+public class ProductEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,13 +27,21 @@ public class UserEntity {
 
     private String name;
 
-    private String email;
+    private String description;
 
-    private String password;
+    private BigDecimal price;
+
+    private Integer stock;
+
+    private String slug;
 
     @JdbcTypeCode(SqlTypes.ARRAY)
-    @Column(name = "roles", columnDefinition = "varchar[]")
-    private List<String> roles;
+    @Column(name = "images_url")
+    private List<String> imagesUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    private CategoryEntity category;
 
     @Column(name = "created_at")
     @CreatedDate
@@ -41,4 +50,6 @@ public class UserEntity {
     @Column(name = "updated_at")
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+
 }

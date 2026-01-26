@@ -1,5 +1,4 @@
 package com.example.auratechApi.security;
-
 import com.example.auratechApi.model.UserEntity;
 import com.example.auratechApi.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
@@ -35,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
 
             var authorities = user.getRoles().stream()
-                    .map(role -> new SimpleGrantedAuthority(role))
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
                     .toList();
             var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
 
