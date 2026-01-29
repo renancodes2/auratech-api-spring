@@ -39,7 +39,7 @@ public class ProductEntity {
 
     @JdbcTypeCode(SqlTypes.ARRAY)
     @Column(name = "images_url")
-    private List<String> imagesUrl;
+    private List<String> imagesUrls;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

@@ -18,20 +18,20 @@ public class ImageStorageService {
 
     public Map<String, Object> uploadFile(MultipartFile file, String folder) throws IOException {
         try {
-            @SuppressWarnings("unchecked")
             Map<String, Object> uploadResult = (Map<String, Object>) cloudinary.uploader().upload(file.getBytes(),
                     ObjectUtils.asMap(
                             "folder", folder,
-                            "resource_type", "auto",
-                            "use_filename", true,
-                            "unique_filename", true
+                            "resource_type", "auto"
                     )
             );
 
-            return uploadResult;
+            String secureUrl = cloudinary.url().secure(true).generate(uploadResult.get("public_id").toString());
+            uploadResult.put("url", secureUrl);
+            uploadResult.put("secure_url", secureUrl);
 
+            return uploadResult;
         } catch (IOException e) {
-            throw new IOException("Failed to upload file to Cloudinary: " + e.getMessage());
+            throw new IOException("Erro: " + e.getMessage());
         }
     }
 }

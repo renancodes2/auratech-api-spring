@@ -11,15 +11,14 @@ import java.util.Map;
 @Configuration
 public class CloudinaryConfig {
 
-
     @Value("${cloudinary.url}")
     private String cloudinaryUrl;
 
     @Bean
     public Cloudinary cloudinary() {
-        return new Cloudinary(cloudinaryUrl);
+        Cloudinary cloudinary = new Cloudinary(cloudinaryUrl);
+        cloudinary.config.secure = true;
+        return cloudinary;
     }
-
-
 
 }
