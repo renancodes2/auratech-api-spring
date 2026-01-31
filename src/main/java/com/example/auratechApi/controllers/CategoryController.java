@@ -1,7 +1,6 @@
 package com.example.auratechApi.controllers;
 
 import com.example.auratechApi.dtos.CategoryDTO;
-import com.example.auratechApi.mappers.CategoryMapper;
 import com.example.auratechApi.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,6 @@ public class CategoryController {
 
 
     private final CategoryService categoryService;
-    private final CategoryMapper mapper;
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody CategoryDTO dto) {
