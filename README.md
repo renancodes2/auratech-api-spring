@@ -11,8 +11,21 @@ O objetivo desta migração é elevar a robustez da aplicação, aproveitando a 
 - Gestão de Identidade: Endpoints de Registro e Login configurados com suporte a UUID nativo e permissões (Roles).
 - Persistência Profissional: PostgreSQL configurado com Flyway para versionamento de banco de dados (substituindo as migrations do Prisma).
 
-## Qualidade de Código:
+## Tecnologias:
 
-- MapStruct: Mapeamento performático entre Entidades e DTOs.
-- Bean Validation: Validação rigorosa de dados de entrada.
-- Custom Exception Handling: Tratamento global de erros para respostas limpas e padronizadas na API.
+- Java 21 & Spring Boot 3
+- Spring Security (Autenticação e autorização com JWT (JSON Web Tokens))
+- Spring Data JPA
+- Spring Validation
+- PostgreSQL(neon(aws))
+- Flyway
+- Lombok & MapStruct
+- Cloudinary
+- Docker & GitHub Actions (Infraestrutura e CI/CD)
+
+## Infraestrutura e DevOps
+
+- Docker: Containerização para ambientes idênticos em dev e produção.
+- GitHub Actions: Pipeline de CI/CD para deploy automatizado no Render.
+- Maven: Gerenciamento de dependências e automação de build.
+
