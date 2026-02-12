@@ -18,6 +18,10 @@ public class ImageStorageService {
 
     public Map<String, Object> uploadFile(MultipartFile file, String folder) throws IOException {
         try {
+            if (file.isEmpty()) {
+                throw new IOException("Failed to upload: The provided file is empty.");
+            }
+
             Map<String, Object> uploadResult = (Map<String, Object>) cloudinary.uploader().upload(file.getBytes(),
                     ObjectUtils.asMap(
                             "folder", folder,
@@ -31,7 +35,7 @@ public class ImageStorageService {
 
             return uploadResult;
         } catch (IOException e) {
-            throw new IOException("Erro: " + e.getMessage());
+            throw new IOException("Could not complete the image upload. Please check your connection or file format.");
         }
     }
 }

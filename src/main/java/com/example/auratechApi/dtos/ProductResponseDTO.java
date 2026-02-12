@@ -13,6 +13,6 @@ public record ProductResponseDTO(
         BigDecimal price,
         Integer stock,
         List<String> imagesUrls,
-        CategoryEntity category
+        String category
         ) {
 }

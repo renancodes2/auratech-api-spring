@@ -52,7 +52,6 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<UserResponseDTO> getMe(@AuthenticationPrincipal UserEntity user) {
         return ResponseEntity.ok(mapper.toDto(user));
-
     }
 
 }

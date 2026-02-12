@@ -2,6 +2,8 @@ package com.example.auratechApi.services;
 
 import com.example.auratechApi.dtos.AuthResponseDTO;
 import com.example.auratechApi.dtos.LoginRequestDTO;
+import com.example.auratechApi.exceptions.UnauthorizedAccessException;
+import com.example.auratechApi.exceptions.UserRegistrationException;
 import com.example.auratechApi.mappers.LoginMapper;
 import com.example.auratechApi.model.UserEntity;
 import com.example.auratechApi.repositories.UserRepository;
@@ -19,15 +21,14 @@ public class LoginService {
     private final LoginMapper mapper;
 
     public AuthResponseDTO login(LoginRequestDTO login) {
-        UserEntity user = this.userRepository.findByEmail(login.email()).orElseThrow(() -> new RuntimeException(""));
+        UserEntity user = this.userRepository.findByEmail(login.email()).orElseThrow(() -> new UserRegistrationException("User not found. Please check your email or create a new account"));
 
-        if(passwordEncoder.matches(login.password(), user.getPassword())) {
-            String token = tokenService.generateToken(user);
-
-            return new AuthResponseDTO(user.getName(), token);
+        if(!passwordEncoder.matches(login.password(), user.getPassword())) {
+            throw new UnauthorizedAccessException("Invalid email or password");
         }
 
-        return null;
+        String token = tokenService.generateToken(user);
+        return new AuthResponseDTO(user.getName(), token);
     }
 
 }

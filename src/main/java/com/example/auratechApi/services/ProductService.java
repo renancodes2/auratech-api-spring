@@ -3,6 +3,7 @@ package com.example.auratechApi.services;
 import com.cloudinary.Cloudinary;
 import com.example.auratechApi.dtos.ProductRequestDTO;
 import com.example.auratechApi.dtos.ProductResponseDTO;
+import com.example.auratechApi.exceptions.ImageUploadException;
 import com.example.auratechApi.exceptions.ResourceNotFoundException;
 import com.example.auratechApi.mappers.ProductMapper;
 import com.example.auratechApi.model.CategoryEntity;
@@ -33,7 +34,7 @@ public class ProductService {
 
     public ProductEntity saveProduct(ProductRequestDTO data) {
 
-        CategoryEntity category = this.categoryRepository.findById(data.category()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        CategoryEntity category = this.categoryRepository.findById(data.category()).orElseThrow(() -> new ResourceNotFoundException("Category Not found"));
 
         List<String> imagesUrls = data
                 .imagesUrl()
@@ -64,20 +65,16 @@ public class ProductService {
     }
 
     public ProductResponseDTO findOneProduct(String id) {
-        Optional<ProductEntity> product = productRepository.findById(UUID.fromString(id));
+        ProductEntity product = productRepository.findById(UUID.fromString(id)).orElseThrow();
 
-        if (product.isPresent()) {
-            return mapper.toDto(product.get());
-        }
-
-        return null;
+        return mapper.toDto(product);
     }
 
     private String uploadToCloudinary(MultipartFile file) {
         try {
             return imageStorageService.uploadFile(file, "products").get("url").toString();
         } catch (IOException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
+            throw new ImageUploadException("Failed to upload product image. Please try again.");
         }
     }
 
