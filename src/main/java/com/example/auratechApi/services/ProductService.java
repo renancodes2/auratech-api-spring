@@ -65,7 +65,7 @@ public class ProductService {
     }
 
     public ProductResponseDTO findOneProduct(String id) {
-        ProductEntity product = productRepository.findById(UUID.fromString(id)).orElseThrow();
+        ProductEntity product = productRepository.findById(UUID.fromString(id)).orElseThrow(() -> new ResourceNotFoundException("Product not found. Please check the selection and try again"));
 
         return mapper.toDto(product);
     }

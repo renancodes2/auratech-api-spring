@@ -50,9 +50,9 @@ public class OrderService {
         order.setUser(user);
         order.setOrderStatus(OrderStatusEnum.PROCESSING);
 
-        orderDto.items().forEach(p -> {
-            ProductEntity product = productRepository.findById(UUID.fromString(p.productId())).orElseThrow(() -> new ResourceNotFoundException("Could not add item to order: Product not found"));
-            OrderItemEntity item = new OrderItemEntity(p.quantity(), order, product, product.getPrice());
+        orderDto.items().forEach(o -> {
+            ProductEntity product = productRepository.findById(UUID.fromString(o.productId())).orElseThrow(() -> new ResourceNotFoundException("Could not add item to order: Product not found"));
+            OrderItemEntity item = new OrderItemEntity(o.quantity(), order, product, product.getPrice());
             order.addItem(item);
         });
 
@@ -61,19 +61,19 @@ public class OrderService {
 
 
     public List<OrderResponseDTO> findAllOrders() {
-        return orderRepository.findAll().stream().map(p -> {
+        return orderRepository.findAll().stream().map(o -> {
             return new OrderResponseDTO(
-                    p.getTotal(),
-                    p.getOrderStatus().toString(),
-                    mapperUser.toDto(p.getUser()),
-                    p.getItems().stream().map( item ->
+                    o.getTotal(),
+                    o.getOrderStatus().toString(),
+                    mapperUser.toDto(o.getUser()),
+                    o.getItems().stream().map( i ->
                         new OrderItemResponseDTO(
-                                    item.getOrder()
+                                    i.getOrder()
                                             .getId()
                                             .toString(),
-                                    mapperProduct.toDto(item.getProduct()),
-                                    item.getQuantity(),
-                                    item.getUnitPrice())
+                                    mapperProduct.toDto(i.getProduct()),
+                                    i.getQuantity(),
+                                    i.getUnitPrice())
             ).toList());
         }).toList();
     }
