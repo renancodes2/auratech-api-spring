@@ -34,26 +34,22 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
-    private final ProductMapper mapperProduct;
-    private final UserMapper mapperUser;
+    private final ProductMapper productMapper;
+    private final UserMapper userMapper;
     private final UserRepository userRepository;
 
     @Transactional
     public void createOrder(OrderRequestDTO orderDto, UserEntity userEntity) {
 
-        UserEntity user = userRepository
-                .findById(userEntity
-                        .getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Order creation failed: User account not found"));
-
         OrderEntity order = new OrderEntity();
-        order.setUser(user);
+        order.setUser(userEntity);
         order.setOrderStatus(OrderStatusEnum.PROCESSING);
 
         orderDto.items().forEach(o -> {
             ProductEntity product = productRepository.findById(UUID.fromString(o.productId())).orElseThrow(() -> new ResourceNotFoundException("Could not add item to order: Product not found"));
             OrderItemEntity item = new OrderItemEntity(o.quantity(), order, product, product.getPrice());
-            order.addItem(item);
+            order.upsertItem(item);
+            order.recalculateTotal();
         });
 
         orderRepository.save(order);
@@ -65,13 +61,13 @@ public class OrderService {
             return new OrderResponseDTO(
                     o.getTotal(),
                     o.getOrderStatus().toString(),
-                    mapperUser.toDto(o.getUser()),
+                    userMapper.toDto(o.getUser()),
                     o.getItems().stream().map( i ->
                         new OrderItemResponseDTO(
                                     i.getOrder()
                                             .getId()
                                             .toString(),
-                                    mapperProduct.toDto(i.getProduct()),
+                                    productMapper.toDto(i.getProduct()),
                                     i.getQuantity(),
                                     i.getUnitPrice())
             ).toList());
@@ -95,9 +91,8 @@ public class OrderService {
         orderItemEntity.setUnitPrice(product.getPrice());
         orderItemEntity.setQuantity(orderDto.quantity());
 
-        order.addItem(orderItemEntity);
-
-        order.updateTotals();
+        order.upsertItem(orderItemEntity);
+        order.recalculateTotal();
 
         orderRepository.save(order);
 
@@ -111,8 +106,9 @@ public class OrderService {
             throw new UnauthorizedAccessException("You do not have permission to modify this order");
         }
 
-        order.removeItem(itemUuid);
-        order.updateTotals();
+        order.decrementOrRemoveItem(itemUuid);
+        order.recalculateTotal();
+
         orderRepository.save(order);
 
     }

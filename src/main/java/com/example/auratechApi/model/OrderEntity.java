@@ -49,41 +49,35 @@ public class OrderEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void updateTotals() {
+    public void recalculateTotal() {
         this.total = this.items.stream()
-                .map(i -> i.getUnitPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
+                .map(item -> item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void addItem(OrderItemEntity item) {
+    public void upsertItem(OrderItemEntity newItem) {
+        boolean alreadyExists = this.items.stream()
+                .filter(item -> item.getProduct().getId().equals(newItem.getProduct().getId()))
+                .findFirst()
+                .map(existingItem -> {
+                    existingItem.setQuantity(existingItem.getQuantity() + newItem.getQuantity());
+                    return true;
+                })
+                .orElse(false);
 
-
-        boolean exist = false;
-
-        for(OrderItemEntity i : this.items) {
-
-            if(i.getProduct().getId().equals(item.getProduct().getId())) {
-                i.setQuantity(i.getQuantity() + item.getQuantity());
-                exist = true;
-                break;
-            }
-
+        if (!alreadyExists) {
+            this.items.add(newItem);
         }
-
-        if(!exist) {
-            this.items.add(item);
-        }
-
     }
 
-    public void removeItem(UUID itemId) {
+    public void decrementOrRemoveItem(UUID itemId) {
         this.items.stream()
-                .filter(item -> item.getId() == itemId)
+                .filter(item -> item.getId().equals(itemId))
                 .findFirst()
                 .ifPresent(item -> {
-                    if(item.getQuantity() > 1) {
+                    if (item.getQuantity() > 1) {
                         item.setQuantity(item.getQuantity() - 1);
-                    }else {
+                    } else {
                         this.items.remove(item);
                     }
                 });
