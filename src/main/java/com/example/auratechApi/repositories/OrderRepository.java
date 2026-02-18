@@ -1,6 +1,6 @@
 package com.example.auratechApi.repositories;
 
-import com.example.auratechApi.model.OrderEntity;
+import com.example.auratechApi.models.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

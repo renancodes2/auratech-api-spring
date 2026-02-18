@@ -1,7 +1,7 @@
 package com.example.auratechApi.mappers;
 
 import com.example.auratechApi.dtos.CategoryDTO;
-import com.example.auratechApi.model.CategoryEntity;
+import com.example.auratechApi.models.CategoryEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

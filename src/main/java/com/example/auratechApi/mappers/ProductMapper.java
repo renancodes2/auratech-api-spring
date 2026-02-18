@@ -1,7 +1,7 @@
 package com.example.auratechApi.mappers;
 
 import com.example.auratechApi.dtos.ProductResponseDTO;
-import com.example.auratechApi.model.ProductEntity;
+import com.example.auratechApi.models.ProductEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

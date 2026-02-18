@@ -1,25 +1,20 @@
 package com.example.auratechApi.services;
 
-import com.cloudinary.Cloudinary;
 import com.example.auratechApi.dtos.ProductRequestDTO;
 import com.example.auratechApi.dtos.ProductResponseDTO;
 import com.example.auratechApi.exceptions.ImageUploadException;
 import com.example.auratechApi.exceptions.ResourceNotFoundException;
 import com.example.auratechApi.mappers.ProductMapper;
-import com.example.auratechApi.model.CategoryEntity;
-import com.example.auratechApi.model.ProductEntity;
+import com.example.auratechApi.models.CategoryEntity;
+import com.example.auratechApi.models.ProductEntity;
 import com.example.auratechApi.repositories.CategoryRepository;
 import com.example.auratechApi.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,13 +28,12 @@ public class ProductService {
     private final ProductMapper mapper;
 
     public ProductEntity saveProduct(ProductRequestDTO data) {
-
         CategoryEntity category = this.categoryRepository.findById(data.category()).orElseThrow(() -> new ResourceNotFoundException("Category Not found"));
 
         List<String> imagesUrls = data
                 .imagesUrl()
                 .stream()
-                .map(img -> uploadToCloudinary(img))
+                .map(this::uploadToCloudinary)
                 .toList();
 
         ProductEntity product = new ProductEntity();

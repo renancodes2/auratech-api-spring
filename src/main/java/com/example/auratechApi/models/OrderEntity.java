@@ -1,4 +1,4 @@
-package com.example.auratechApi.model;
+package com.example.auratechApi.models;
 
 import com.example.auratechApi.enums.OrderStatusEnum;
 import jakarta.persistence.*;

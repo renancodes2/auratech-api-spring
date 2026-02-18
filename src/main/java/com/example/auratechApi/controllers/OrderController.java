@@ -3,13 +3,12 @@ package com.example.auratechApi.controllers;
 import com.example.auratechApi.dtos.OrderItemRequestDTO;
 import com.example.auratechApi.dtos.OrderRequestDTO;
 import com.example.auratechApi.dtos.OrderResponseDTO;
-import com.example.auratechApi.model.UserEntity;
+import com.example.auratechApi.models.UserEntity;
 import com.example.auratechApi.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

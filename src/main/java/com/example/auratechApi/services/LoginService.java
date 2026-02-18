@@ -5,7 +5,7 @@ import com.example.auratechApi.dtos.LoginRequestDTO;
 import com.example.auratechApi.exceptions.UnauthorizedAccessException;
 import com.example.auratechApi.exceptions.UserRegistrationException;
 import com.example.auratechApi.mappers.LoginMapper;
-import com.example.auratechApi.model.UserEntity;
+import com.example.auratechApi.models.UserEntity;
 import com.example.auratechApi.repositories.UserRepository;
 import com.example.auratechApi.security.TokenService;
 import lombok.RequiredArgsConstructor;

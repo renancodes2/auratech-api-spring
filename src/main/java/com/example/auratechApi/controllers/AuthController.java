@@ -5,7 +5,7 @@ import com.example.auratechApi.dtos.LoginRequestDTO;
 import com.example.auratechApi.dtos.RegisterRequestDTO;
 import com.example.auratechApi.dtos.UserResponseDTO;
 import com.example.auratechApi.mappers.UserMapper;
-import com.example.auratechApi.model.UserEntity;
+import com.example.auratechApi.models.UserEntity;
 import com.example.auratechApi.services.LoginService;
 import com.example.auratechApi.services.RegisterService;
 import lombok.RequiredArgsConstructor;

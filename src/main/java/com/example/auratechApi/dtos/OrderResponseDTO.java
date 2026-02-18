@@ -1,7 +1,5 @@
 package com.example.auratechApi.dtos;
 
-import com.example.auratechApi.model.UserEntity;
-
 import java.math.BigDecimal;
 import java.util.List;
 

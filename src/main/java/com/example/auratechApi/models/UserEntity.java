@@ -1,4 +1,4 @@
-package com.example.auratechApi.model;
+package com.example.auratechApi.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;

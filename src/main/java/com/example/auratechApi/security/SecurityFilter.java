@@ -1,5 +1,5 @@
 package com.example.auratechApi.security;
-import com.example.auratechApi.model.UserEntity;
+import com.example.auratechApi.models.UserEntity;
 import com.example.auratechApi.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

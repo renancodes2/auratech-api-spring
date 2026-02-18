@@ -1,4 +1,4 @@
-package com.example.auratechApi.model;
+package com.example.auratechApi.models;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,8 +16,6 @@ import java.util.UUID;
 @Setter
 @EntityListeners(AuditingEntityListener.class)
 public class OrderItemEntity {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

@@ -9,10 +9,10 @@ import com.example.auratechApi.exceptions.ResourceNotFoundException;
 import com.example.auratechApi.exceptions.UnauthorizedAccessException;
 import com.example.auratechApi.mappers.ProductMapper;
 import com.example.auratechApi.mappers.UserMapper;
-import com.example.auratechApi.model.OrderEntity;
-import com.example.auratechApi.model.OrderItemEntity;
-import com.example.auratechApi.model.ProductEntity;
-import com.example.auratechApi.model.UserEntity;
+import com.example.auratechApi.models.OrderEntity;
+import com.example.auratechApi.models.OrderItemEntity;
+import com.example.auratechApi.models.ProductEntity;
+import com.example.auratechApi.models.UserEntity;
 import com.example.auratechApi.repositories.OrderItemRepository;
 import com.example.auratechApi.repositories.OrderRepository;
 import com.example.auratechApi.repositories.ProductRepository;
@@ -21,11 +21,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

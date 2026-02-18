@@ -2,14 +2,11 @@ package com.example.auratechApi.controllers;
 
 import com.example.auratechApi.dtos.ProductRequestDTO;
 import com.example.auratechApi.dtos.ProductResponseDTO;
-import com.example.auratechApi.model.ProductEntity;
+import com.example.auratechApi.models.ProductEntity;
 import com.example.auratechApi.services.ProductService;
-import jakarta.annotation.security.PermitAll;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
