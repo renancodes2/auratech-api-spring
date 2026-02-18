@@ -14,18 +14,19 @@ O objetivo desta migração é elevar a robustez da aplicação, aproveitando a 
 ## Tecnologias:
 
 - Java 21 & Spring Boot 3
-- Spring Security (Autenticação e autorização com JWT (JSON Web Tokens))
+- Spring Security (Autenticação e autorização com JWT
 - Spring Data JPA
 - Spring Validation
 - PostgreSQL(neon(aws))
 - Flyway
 - Lombok & MapStruct
 - Cloudinary
-- Docker & GitHub Actions (Infraestrutura e CI/CD)
+- Docker & GitHub Actions
 
 ## Infraestrutura e DevOps
 
 - Docker: Containerização para ambientes idênticos em dev e produção.
 - GitHub Actions: Pipeline de CI/CD para deploy automatizado no Render.
 - Maven: Gerenciamento de dependências e automação de build.
+
 
