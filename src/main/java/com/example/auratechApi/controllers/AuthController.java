@@ -29,11 +29,8 @@ public class AuthController {
 
         AuthResponseDTO loginResponseDTO = this.loginService.login(login);
 
-        if(loginResponseDTO != null) {
-            return ResponseEntity.ok(loginResponseDTO);
-        }
+        return ResponseEntity.ok(loginResponseDTO);
 
-        return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/register")
@@ -43,11 +40,7 @@ public class AuthController {
 
         AuthResponseDTO loginResponse = this.loginService.login(new LoginRequestDTO(register.email(), register.password()));
 
-        if(loginResponse != null) {
-            return ResponseEntity.ok(loginResponse);
-        }
-
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(loginResponse);
 
     }
 
