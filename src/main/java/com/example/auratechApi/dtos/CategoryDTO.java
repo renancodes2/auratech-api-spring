@@ -1,4 +1,9 @@
 package com.example.auratechApi.dtos;
 
-public record CategoryDTO(String name) {
+import jakarta.validation.constraints.NotBlank;
+
+public record CategoryDTO(
+        @NotBlank(message = "The field name is required")
+        String name
+) {
 }

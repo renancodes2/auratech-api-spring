@@ -8,7 +8,9 @@ import com.example.auratechApi.mappers.UserMapper;
 import com.example.auratechApi.models.UserEntity;
 import com.example.auratechApi.services.LoginService;
 import com.example.auratechApi.services.RegisterService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,7 @@ public class AuthController {
     private final UserMapper mapper;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginRequestDTO login ) {
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid LoginRequestDTO login ) {
 
         AuthResponseDTO loginResponseDTO = this.loginService.login(login);
 
@@ -35,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponseDTO> register(@RequestBody RegisterRequestDTO register) {
+    public ResponseEntity<AuthResponseDTO> register(@RequestBody @Valid RegisterRequestDTO register) {
 
         this.registerService.register(register);
 

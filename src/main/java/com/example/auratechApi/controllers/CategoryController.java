@@ -2,6 +2,7 @@ package com.example.auratechApi.controllers;
 
 import com.example.auratechApi.dtos.CategoryDTO;
 import com.example.auratechApi.services.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody CategoryDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody @Valid CategoryDTO dto) {
 
         this.categoryService.create(dto);
 

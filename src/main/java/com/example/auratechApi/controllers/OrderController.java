@@ -5,6 +5,7 @@ import com.example.auratechApi.dtos.OrderRequestDTO;
 import com.example.auratechApi.dtos.OrderResponseDTO;
 import com.example.auratechApi.models.UserEntity;
 import com.example.auratechApi.services.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<Void> createOrder(
-            @RequestBody OrderRequestDTO dto,
+            @RequestBody @Valid OrderRequestDTO dto,
             @AuthenticationPrincipal UserEntity user
     ) {
 
@@ -39,7 +40,7 @@ public class OrderController {
     @PostMapping("{id}")
     public ResponseEntity<Void> addItemToOrder(
             @PathVariable("id") UUID orderUuid,
-            @RequestBody OrderItemRequestDTO orderItem,
+            @RequestBody @Valid OrderItemRequestDTO orderItem,
             @AuthenticationPrincipal UserEntity user
     ) {
         orderService.addItemToOrder(orderUuid, orderItem, user);
