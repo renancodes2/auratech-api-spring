@@ -22,10 +22,10 @@ public class RegisterService {
     public void register(RegisterRequestDTO register) {
 
         UserEntity user = mapper.toEntity(register);
-        user.setPassword(passwordEncoder.encode(register.password()));
-        Optional<UserEntity> result = this.userRepository.findByEmail(user.getEmail());
 
-        if(result.isPresent()) {
+        user.setPassword(passwordEncoder.encode(register.password()));
+
+        if(this.userRepository.existsByEmail(user.getEmail())) {
             throw new UserRegistrationException("User already exists with this email address");
         }
 

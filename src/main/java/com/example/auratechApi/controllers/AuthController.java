@@ -11,6 +11,7 @@ import com.example.auratechApi.services.RegisterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,11 +27,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid LoginRequestDTO login ) {
-
-        AuthResponseDTO loginResponseDTO = this.loginService.login(login);
-
-        return ResponseEntity.ok(loginResponseDTO);
-
+        return ResponseEntity.ok(this.loginService.login(login));
     }
 
     @PostMapping("/register")
@@ -38,9 +35,7 @@ public class AuthController {
 
         this.registerService.register(register);
 
-        AuthResponseDTO loginResponse = this.loginService.login(new LoginRequestDTO(register.email(), register.password()));
-
-        return ResponseEntity.ok(loginResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.loginService.login(new LoginRequestDTO(register.email(), register.password())));
 
     }
 

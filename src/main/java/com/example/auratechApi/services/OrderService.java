@@ -42,11 +42,28 @@ public class OrderService {
         order.setUser(userEntity);
         order.setOrderStatus(OrderStatusEnum.PROCESSING);
 
+        List<UUID> productIds = orderDto.items().stream()
+                .map(o -> UUID.fromString(o.productId()))
+                .toList();
+
+        List<ProductEntity> productEntities = productRepository.findAllById(productIds);
+
         orderDto.items().forEach(o -> {
-            ProductEntity product = productRepository.findById(UUID.fromString(o.productId())).orElseThrow(() -> new ResourceNotFoundException("Could not add item to order: Product not found"));
+            ProductEntity product = productEntities.stream()
+                    .filter(productEntity -> productEntity.getId().equals(UUID.fromString(o.productId())))
+                            .findFirst()
+                                    .orElseThrow();
+
+            if (product.getStock() < o.quantity()) {
+                throw new IllegalStateException("Insufficient stock for: " + product.getName());
+            }
+
+            product.setStock(product.getStock() - o.quantity());
+
             OrderItemEntity item = new OrderItemEntity(o.quantity(), order, product, product.getPrice());
             order.upsertItem(item);
             order.recalculateTotal();
+            productRepository.save(product);
         });
 
         orderRepository.save(order);
@@ -71,6 +88,7 @@ public class OrderService {
         }).toList();
     }
 
+    @Transactional
     public void addItemToOrder(UUID orderUuid, OrderItemRequestDTO orderDto, UserEntity user) {
         UUID productUuid = UUID.fromString(orderDto.productId());
 
@@ -86,7 +104,13 @@ public class OrderService {
         orderItemEntity.setProduct(product);
         orderItemEntity.setOrder(order);
         orderItemEntity.setUnitPrice(product.getPrice());
-        orderItemEntity.setQuantity(orderDto.quantity());
+        orderItemEntity.setQuantity(orderDto.quantity());;
+
+        if(product.getStock() < orderItemEntity.getQuantity()) {
+            throw new IllegalStateException("Insufficient stock for: " + product.getName());
+        }
+
+        product.setStock(product.getStock() - orderDto.quantity());
 
         order.upsertItem(orderItemEntity);
         order.recalculateTotal();
@@ -95,6 +119,7 @@ public class OrderService {
 
     }
 
+    @Transactional
     public void removeItemFromOrder(UUID orderUuid, UUID itemUuid, UserEntity user) {
 
         OrderEntity order = orderRepository.findById(orderUuid).orElseThrow(() -> new ResourceNotFoundException("Failed to remove item: not found"));
@@ -102,6 +127,11 @@ public class OrderService {
         if(!user.getId().equals(order.getUser().getId())) {
             throw new UnauthorizedAccessException("You do not have permission to modify this order");
         }
+
+        orderItemRepository.findById(itemUuid).ifPresent(i -> {
+            ProductEntity product = i.getProduct();
+            product.setStock(product.getStock() + i.getQuantity());
+        });
 
         order.decrementOrRemoveItem(itemUuid);
         order.recalculateTotal();
