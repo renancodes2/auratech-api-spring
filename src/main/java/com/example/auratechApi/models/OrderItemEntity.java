@@ -1,5 +1,6 @@
 package com.example.auratechApi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,6 +25,7 @@ public class OrderItemEntity {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private OrderEntity order;
 
     @ManyToOne

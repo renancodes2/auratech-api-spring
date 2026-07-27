@@ -1,6 +1,7 @@
 package com.example.auratechApi.models;
 
 import com.example.auratechApi.enums.OrderStatusEnum;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,7 @@ public class OrderEntity {
     private UserEntity user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<OrderItemEntity> items = new ArrayList<>();
 
     @CreatedDate
