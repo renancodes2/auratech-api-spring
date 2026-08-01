@@ -1,6 +1,6 @@
 # 🚀 AuraTech API (Spring Boot Migration)
 
-Este repositório contém a nova versão do Backend da [AuraTech](https://auratech-frontend.vercel.app), originalmente desenvolvido em NestJS e Prisma, agora sendo migrado para o ecossistema Java com Spring Boot 3.
+Este repositório contém a nova versão do Backend da [AuraTech](https://github.com/renancodes2/auratech-frontend), originalmente desenvolvido em NestJS e Prisma, agora sendo migrado para o ecossistema Java com Spring Boot 3.
 O objetivo desta migração é elevar a robustez da aplicação, aproveitando a tipagem forte do Java 21 e a maturidade do Spring Security para o gerenciamento de autenticação e permissões (RBAC).
 
 
