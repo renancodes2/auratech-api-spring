@@ -27,6 +27,4 @@ O objetivo desta migração é elevar a robustez da aplicação, aproveitando a 
 
 - Docker: Containerização para ambientes idênticos em dev e produção.
 - GitHub Actions: Pipeline de CI/CD para deploy automatizado no Render.
-- Maven: Gerenciamento de dependências e automação de build.
-
 
